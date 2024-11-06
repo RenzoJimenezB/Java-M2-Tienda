@@ -9,10 +9,11 @@ import java.sql.SQLException;
 public class DBConnectionManager {
     private static final Dotenv dotenv = Dotenv.load();
 
-    public static Connection getConnection() {
-        String url = dotenv.get("DB_URL");
-        String user = dotenv.get("DB_USER");
-        String password = dotenv.get("DB_PASSWORD");
+    private static final String url = dotenv.get("DB_URL");
+    private static final String user = dotenv.get("DB_USER");
+    private static final String password = dotenv.get("DB_PASSWORD");
+
+    public static Connection getConnection() throws SQLException {
 
         try {
             return DriverManager.getConnection(url, user, password);
@@ -21,8 +22,10 @@ public class DBConnectionManager {
             System.out.println("SQL error code: " + e.getErrorCode());
             System.out.println("SQLState: " + e.getSQLState());
             System.out.println("SQL error message: " + e.getMessage());
-//            e.printStackTrace();
         }
         return null;
+    }
+
+    public static void closeConnection(Connection connection) {
     }
 }
