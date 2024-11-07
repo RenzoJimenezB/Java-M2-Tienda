@@ -1,6 +1,7 @@
 package m2tienda.m2tienda.utils;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import jakarta.servlet.ServletException;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,9 +14,10 @@ public class DBConnectionManager {
     private static final String user = dotenv.get("DB_USER");
     private static final String password = dotenv.get("DB_PASSWORD");
 
-    public static Connection getConnection() throws SQLException {
+    public static Connection getConnection() throws SQLException, ServletException {
 
         try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
             return DriverManager.getConnection(url, user, password);
 
         } catch (SQLException e) {
@@ -23,6 +25,8 @@ public class DBConnectionManager {
             System.err.println("SQLState: " + e.getSQLState());
             System.err.println("SQL error message: " + e.getMessage());
             throw e;
+        } catch (ClassNotFoundException e) {
+            throw new ServletException("JDBC Driver not found", e);
         }
     }
 

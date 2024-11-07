@@ -1,13 +1,16 @@
 package m2tienda.m2tienda.services;
 
 import m2tienda.m2tienda.entities.Category;
+import m2tienda.m2tienda.exceptions.RepositoryException;
 import m2tienda.m2tienda.repositories.CategoryRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
 public class CategoryService {
+    private static final Logger logger = LogManager.getLogger(CategoryService.class);
     private final CategoryRepository categoryRepository;
 
     public CategoryService(CategoryRepository categoryRepository) {
@@ -15,9 +18,13 @@ public class CategoryService {
     }
 
     public List<Category> getCategories() {
+        logger.info("getCategories() called");
+
         try {
             return categoryRepository.findAll();
-        } catch (SQLException e) {
+
+        } catch (RepositoryException e) {
+            logger.error("Repository error: {}", e.getMessage());
             return Collections.emptyList();
         }
     }
