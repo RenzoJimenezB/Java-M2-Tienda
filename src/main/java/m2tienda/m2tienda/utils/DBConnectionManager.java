@@ -19,13 +19,22 @@ public class DBConnectionManager {
             return DriverManager.getConnection(url, user, password);
 
         } catch (SQLException e) {
-            System.out.println("SQL error code: " + e.getErrorCode());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("SQL error message: " + e.getMessage());
+            System.err.println("SQL error code: " + e.getErrorCode());
+            System.err.println("SQLState: " + e.getSQLState());
+            System.err.println("SQL error message: " + e.getMessage());
+            throw e;
         }
-        return null;
     }
 
-    public static void closeConnection(Connection connection) {
+    public static void closeResources(AutoCloseable... resources) {
+        for (AutoCloseable resource : resources) {
+            try {
+                if (resource != null) {
+                    resource.close();
+                }
+            } catch (Exception e) {
+                System.err.println("Error closing resource: " + e.getMessage());
+            }
+        }
     }
 }
