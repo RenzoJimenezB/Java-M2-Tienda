@@ -2,12 +2,15 @@ package m2tienda.m2tienda.utils;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.servlet.ServletException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnectionManager {
+    private static final Logger logger = LogManager.getLogger(DBConnectionManager.class);
     private static final Dotenv dotenv = Dotenv.load();
 
     private static final String url = dotenv.get("DB_URL");
@@ -21,9 +24,10 @@ public class DBConnectionManager {
             return DriverManager.getConnection(url, user, password);
 
         } catch (SQLException e) {
-            System.err.println("SQL error code: " + e.getErrorCode());
-            System.err.println("SQLState: " + e.getSQLState());
-            System.err.println("SQL error message: " + e.getMessage());
+            logger.error("SQL error while getting connection.\nCode: {}\nSQLState: {}\nMessage: {}",
+                    e.getErrorCode(),
+                    e.getSQLState(),
+                    e.getMessage());
             throw e;
         } catch (ClassNotFoundException e) {
             throw new ServletException("JDBC Driver not found", e);
@@ -37,6 +41,7 @@ public class DBConnectionManager {
                     resource.close();
                 }
             } catch (Exception e) {
+                logger.error("Error closing resource: {}", e.getMessage());
                 System.err.println("Error closing resource: " + e.getMessage());
             }
         }

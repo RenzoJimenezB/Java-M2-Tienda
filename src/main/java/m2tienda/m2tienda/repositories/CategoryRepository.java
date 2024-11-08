@@ -14,13 +14,8 @@ import java.util.List;
 
 public class CategoryRepository {
     private static final Logger logger = LogManager.getLogger(CategoryRepository.class);
-    private final Connection connection;
 
-    public CategoryRepository(Connection connection) {
-        this.connection = connection;
-    }
-
-    public List<Category> findAll() {
+    public List<Category> findAll(Connection connection) {
         logger.info("findAll() called");
 
         String query = """

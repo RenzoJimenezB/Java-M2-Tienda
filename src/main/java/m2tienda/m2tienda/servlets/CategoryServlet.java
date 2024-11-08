@@ -21,40 +21,28 @@ import java.util.List;
 public class CategoryServlet extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(CategoryServlet.class);
     private CategoryService categoryService;
-    private Connection connection;
 
     @Override
-    public void init() throws ServletException {
-        try {
-            connection = DBConnectionManager.getConnection();
-            CategoryRepository categoryRepository = new CategoryRepository(connection);
-            categoryService = new CategoryService(categoryRepository);
-
-        } catch (SQLException e) {
-            throw new ServletException("Unable to initialize CategoryServlet due to DB connection issues");
-        }
+    public void init() {
+        categoryService = new CategoryService(new CategoryRepository());
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.info("CategoryServlet - doGet() called");
 
-        try {
-            List<Category> categories = categoryService.getCategories();
+        try (Connection connection = DBConnectionManager.getConnection()) {
+            List<Category> categories = categoryService.getCategories(connection);
 
-            categories.stream().forEach(category -> logger.info(category.toString()));
+            logger.info("\n{}", String.join("\n",
+                    categories.stream().map(Category::toString).toList()));
 
             req.setAttribute("categories", categories);
             req.getRequestDispatcher("/WEB-INF/views/categories.jsp").forward(req, resp);
 
-        } finally {
-            DBConnectionManager.closeResources(connection);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    public void destroy() {
-        DBConnectionManager.closeResources(connection);
     }
 }
 

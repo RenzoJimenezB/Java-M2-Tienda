@@ -6,6 +6,7 @@ import m2tienda.m2tienda.repositories.CategoryRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.Connection;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,11 +18,11 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-    public List<Category> getCategories() {
+    public List<Category> getCategories(Connection connection) {
         logger.info("getCategories() called");
 
         try {
-            return categoryRepository.findAll();
+            return categoryRepository.findAll(connection);
 
         } catch (RepositoryException e) {
             logger.error("Repository error: {}", e.getMessage());
