@@ -33,7 +33,6 @@ public class CategoryRepository {
                 Category category = new Category();
                 category.setId(rs.getInt("id"));
                 category.setName(rs.getString("nombre"));
-                category.setDescription(rs.getString("descripcion"));
                 category.setOrder(rs.getInt("orden"));
                 categories.add(category);
             }

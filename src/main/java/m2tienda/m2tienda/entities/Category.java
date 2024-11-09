@@ -3,7 +3,6 @@ package m2tienda.m2tienda.entities;
 public class Category {
     private Integer id;
     private String name;
-    private String description;
     private Integer order;
 
 //    public Category(Integer id, String name, String description, Integer order) {
@@ -29,14 +28,6 @@ public class Category {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public Integer getOrder() {
         return order;
     }
@@ -50,7 +41,6 @@ public class Category {
         return "Category{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
                 ", order=" + order +
                 '}';
     }
