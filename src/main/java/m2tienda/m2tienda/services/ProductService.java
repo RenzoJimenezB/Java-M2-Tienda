@@ -29,4 +29,24 @@ public class ProductService {
             return Collections.emptyList();
         }
     }
+
+    public void getProduct(Connection connection, int id) {
+        logger.info("getProduct() called");
+        productRepository.findOne(connection, id);
+    }
+
+    public void createProduct(Connection connection, Product product) {
+        logger.info("createProduct() called");
+        productRepository.create(connection, product);
+    }
+
+    public void updateProduct(Connection connection, Product product) {
+        logger.info("updateProduct() called");
+        productRepository.update(connection, product);
+    }
+
+    public void deleteProduct(Connection connection, int id) {
+        logger.info("deleteProduct() called");
+        productRepository.delete(connection, id);
+    }
 }

@@ -50,4 +50,16 @@ public class ProductRepository {
             throw new RepositoryException(e.getMessage());
         }
     }
+
+    public void findOne(Connection connection, int id) {
+    }
+
+    public void create(Connection connection, Product product) {
+    }
+
+    public void update(Connection connection, Product product) {
+    }
+
+    public void delete(Connection connection, int id) {
+    }
 }
