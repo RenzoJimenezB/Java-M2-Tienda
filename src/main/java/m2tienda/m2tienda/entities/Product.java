@@ -3,6 +3,7 @@ package m2tienda.m2tienda.entities;
 public class Product {
     private Integer id;
     private Integer categoryId;
+    private Category category;
     private String name;
     private String description;
     private Double price;
@@ -26,6 +27,14 @@ public class Product {
 
     public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+    
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public String getName() {

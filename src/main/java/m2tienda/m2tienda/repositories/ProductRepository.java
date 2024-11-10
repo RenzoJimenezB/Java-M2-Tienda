@@ -1,5 +1,6 @@
 package m2tienda.m2tienda.repositories;
 
+import m2tienda.m2tienda.entities.Category;
 import m2tienda.m2tienda.entities.Product;
 import m2tienda.m2tienda.exceptions.RepositoryException;
 import org.apache.logging.log4j.LogManager;
@@ -19,8 +20,13 @@ public class ProductRepository {
         logger.info("findAll() called");
 
         String query = """
-                SELECT *
-                FROM productos
+                SELECT p.id, p.categorias_id, p.nombre, p.descripcion, p.precio, p.stock,
+                       p.imagen_nombre, p.imagen_tipo, p.imagen_tamanio, p.creado, p.estado,
+                       c.nombre AS categorias_nombre
+                FROM productos p
+                INNER JOIN categorias c ON c.id = p.categorias_id
+                WHERE p.estado = 1
+                ORDER BY p.id
                 """;
 
         try (PreparedStatement ps = connection.prepareStatement(query);
@@ -32,6 +38,12 @@ public class ProductRepository {
                 Product product = new Product();
                 product.setId(rs.getInt("id"));
                 product.setCategoryId(rs.getInt("categorias_id"));
+
+                Category category = new Category();
+                category.setId(rs.getInt("categorias_id"));
+                category.setName(rs.getString("categorias_nombre"));
+                product.setCategory(category);
+
                 product.setName(rs.getString("nombre"));
                 product.setDescription(rs.getString("descripcion"));
                 product.setPrice(rs.getDouble("precio"));
