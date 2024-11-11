@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,34 +20,54 @@ public class ProductService {
     }
 
     public List<Product> getProducts(Connection connection) {
-        logger.info("getProducts() called");
+        logger.info("ProductService - getProducts() called");
 
         try {
             return productRepository.findAll(connection);
-
         } catch (RepositoryException e) {
-            logger.error("Repository error: {}", e.getMessage());
+            logger.error("Repository error while fetching products: {}", e.getMessage());
             return Collections.emptyList();
         }
     }
 
-    public void getProduct(Connection connection, int id) {
-        logger.info("getProduct() called");
-        productRepository.findOne(connection, id);
+    public Product getProduct(Connection connection, int id) {
+        logger.info("ProductService - getProduct() called");
+
+        try {
+            return productRepository.findOne(connection, id);
+        } catch (RepositoryException e) {
+            logger.error("Repository error while fetching product by ID: {}", e.getMessage());
+            return null;
+        }
     }
 
     public void createProduct(Connection connection, Product product) {
-        logger.info("createProduct() called");
-        productRepository.create(connection, product);
+        logger.info("ProductService - createProduct() called");
+
+        try {
+            productRepository.create(connection, product);
+        } catch (RepositoryException e) {
+            logger.error("Repository error while creating product: {}", e.getMessage());
+        }
     }
 
     public void updateProduct(Connection connection, Product product) {
-        logger.info("updateProduct() called");
-        productRepository.update(connection, product);
+        logger.info("ProductService - updateProduct() called");
+
+        try {
+            productRepository.update(connection, product);
+        } catch (RepositoryException e) {
+            logger.error("Repository error while updating product: {}", e.getMessage());
+        }
     }
 
-    public void deleteProduct(Connection connection, int id) {
-        logger.info("deleteProduct() called");
-        productRepository.delete(connection, id);
+    public void deleteProduct(Connection connection, int id) throws SQLException {
+        logger.info("ProductService - deleteProduct() called");
+
+        try {
+            productRepository.delete(connection, id);
+        } catch (RepositoryException e) {
+            logger.error("Repository error while deleting product: {}", e.getMessage());
+        }
     }
 }

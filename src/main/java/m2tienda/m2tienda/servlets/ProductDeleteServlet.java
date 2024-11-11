@@ -5,7 +5,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import m2tienda.m2tienda.entities.Product;
 import m2tienda.m2tienda.repositories.ProductRepository;
 import m2tienda.m2tienda.services.ProductService;
 import m2tienda.m2tienda.utils.DBConnectionManager;
@@ -15,12 +14,10 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 
-
-@WebServlet("/products")
-public class ProductServlet extends HttpServlet {
-    private static final Logger logger = LogManager.getLogger(ProductServlet.class);
+@WebServlet("/products/delete")
+public class ProductDeleteServlet extends HttpServlet {
+    private static final Logger logger = LogManager.getLogger(ProductDeleteServlet.class);
     private ProductService productService;
 
     @Override
@@ -30,19 +27,18 @@ public class ProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.info("ProductServlet - doGet() called");
+        logger.info("ProductDeleteServlet - doGet() called");
+
+        int productId = Integer.parseInt(req.getParameter("id"));
 
         try (Connection connection = DBConnectionManager.getConnection()) {
-            List<Product> products = productService.getProducts(connection);
-
-            logger.info("\n{}", String.join("\n",
-                    products.stream().map(Product::toString).toList()));
-
-            req.setAttribute("products", products);
-            req.getRequestDispatcher("WEB-INF/views/products.jsp").forward(req, resp);
+            productService.deleteProduct(connection, productId);
+            resp.sendRedirect(req.getContextPath() + "/products"); // Redirect after deletion
 
         } catch (SQLException e) {
+            logger.error("Failed to delete product", e);
             throw new RuntimeException(e);
         }
     }
 }
+
