@@ -115,8 +115,10 @@ public class ProductRepository {
         logger.info("ProductRepository - create() called");
 
         String query = """
-                INSERT INTO productos (categorias_id, nombre, precio, stock, descripcion, estado)
-                VALUES (?, ?, ?, ?, ?, ?)
+                INSERT INTO productos (
+                       categorias_id, nombre, precio, stock, descripcion, estado,
+                       imagen_nombre, imagen_tipo, imagen_tamanio)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """;
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -125,7 +127,11 @@ public class ProductRepository {
             statement.setDouble(3, product.getPrice());
             statement.setInt(4, product.getStock());
             statement.setString(5, product.getDescription());
-            statement.setInt(6, product.getState());  // Assuming state is a string like "ACTIVE"
+            statement.setInt(6, product.getState());
+
+            statement.setString(7, product.getImage_name());
+            statement.setString(8, product.getImage_type());
+            statement.setLong(9, product.getImage_size());
 
             int rowsAffected = statement.executeUpdate();
             logger.info("Product created successfully, rows affected: {}", rowsAffected);

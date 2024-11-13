@@ -1,7 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="m2tienda.m2tienda.entities.Category" %>
-<%@ page import="java.util.List" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title>Create Product</title>
@@ -10,12 +8,10 @@
 <body>
 <%@include file="/WEB-INF/includes/navbar.jsp" %>
 
-<% String contextPath = request.getContextPath(); %>
-
 <div class="container-fluid pt-3">
     <div class="display-4 mb-3">Mantenimiento de Productos</div>
 
-    <form action="<%=contextPath%>/products/create" method="post" enctype="multipart/form-data">
+    <form action="<c:url value="/products/create"/>" method="post" enctype="multipart/form-data">
 
         <div class="card">
             <div class="card-header"> Registro de Producto</div>
@@ -72,8 +68,7 @@
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Guardar</button>
-                <a href="<%=contextPath%>/products" class="btn btn-
-secondary">Cancelar</a>
+                <a href="<c:url value="/products"/>" class="btn btn-secondary">Cancelar</a>
             </div>
         </div>
     </form>

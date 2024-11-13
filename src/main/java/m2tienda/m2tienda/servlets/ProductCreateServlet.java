@@ -76,10 +76,10 @@ public class ProductCreateServlet extends HttpServlet {
 
         Part filePart = req.getPart("imagen");
         if (filePart.getSubmittedFileName() != null) {
-            File filepath = new File(getServletContext().getRealPath("/") + File.separator + "files");
+            File filepath = new File(getServletContext().getRealPath("") + File.separator + "files");
 
             if (!filepath.exists()) filepath.mkdir();
-            String fileName = System.currentTimeMillis() + filePart.getSubmittedFileName();
+            String fileName = System.currentTimeMillis() + "-" + filePart.getSubmittedFileName();
 
             filePart.write(filepath + File.separator + fileName);
 

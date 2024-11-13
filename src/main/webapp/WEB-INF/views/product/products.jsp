@@ -1,7 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="m2tienda.m2tienda.entities.Product" %>
-<%@ page import="java.util.List" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title>Tienda</title>
@@ -10,8 +8,6 @@
 
 <body>
 <%@include file="/WEB-INF/includes/navbar.jsp" %>
-
-<%--<% String contextPath = request.getContextPath(); %>--%>
 
 <div class="container-fluid pt-3">
     <div class="display-4 mb-3">Mantenimiento de Productos</div>
@@ -41,9 +37,8 @@
                         <td><c:out value="${product.price}"/></td>
 
                         <td>
-                            <c:if test="${product.image_name != null}">
-                                <img src="${contextPath}/files/<c:out
-                                     value="${product.image_name}"/>"
+                            <c:if test="${not empty product.image_name}">
+                                <img src="<c:url value="files/${product.image_name}"/>"
                                      alt=""
                                      height="30">
                             </c:if>
@@ -54,12 +49,14 @@
                                class="btn btn-info btn-sm"><i class="fa fa-eye"></i>
                                 Mostrar</a>
 
-                            <a href="${contextPath}/products/edit?id=<c:out value="${product.id}"/>"
-                               class="btn btn-warning btn-sm"><i class="fa fa-edit"></i>
+                            <a href="
+                                <c:url value="/products/edit"><c:param name="id" value="${product.id}"/>
+                                </c:url>" class=" btn btn-warning btn-sm"><i class="fa fa-edit"></i>
                                 Editar</a>
 
-                            <a href="${contextPath}/products/delete?id=<c:out value="${product.id}"/>"
-                               class="btn btn-danger btn-sm"><i class="fa fa-trash"></i>
+                            <a href="
+                                <c:url value="/products/delete"><c:param name="id" value="${product.id}"/>
+                                </c:url> " class="btn btn-danger btn-sm"><i class="fa fa-trash"></i>
                                 Eliminar</a>
                         </td>
                     </tr>
@@ -69,7 +66,7 @@
             </table>
         </div>
         <div class="card-footer">
-            <a href="<%=request.getContextPath()%>/products/create" class="btn btn-success"><i class="fa fa-plus"></i>
+            <a href="<c:url value="/products/create"/>" class="btn btn-success"><i class="fa fa-plus"></i>
                 Nuevo
             </a>
         </div>
