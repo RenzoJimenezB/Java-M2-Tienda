@@ -75,7 +75,7 @@ public class ProductCreateServlet extends HttpServlet {
         product.setState(ACTIVE);
 
         Part filePart = req.getPart("imagen");
-        if (filePart.getSubmittedFileName() != null) {
+        if (filePart.getSubmittedFileName() != null && !filePart.getSubmittedFileName().isEmpty()) {
             File filepath = new File(getServletContext().getRealPath("") + File.separator + "files");
 
             if (!filepath.exists()) filepath.mkdir();
@@ -83,7 +83,7 @@ public class ProductCreateServlet extends HttpServlet {
 
             filePart.write(filepath + File.separator + fileName);
 
-            logger.info("ProductCreateServlet - file created: {}{}{}", filepath, File.separator, fileName);
+            logger.info("File created: {}{}{}", filepath, File.separator, fileName);
 
             product.setImage_name(fileName);
             product.setImage_type(filePart.getContentType());
@@ -95,11 +95,12 @@ public class ProductCreateServlet extends HttpServlet {
         try (Connection connection = DBConnectionManager.getConnection()) {
             productService.createProduct(connection, product);
 
+            req.getSession().setAttribute("success", "Registro guardado exitosamente");
+            resp.sendRedirect(req.getContextPath() + "/products");
+
         } catch (Exception e) {
             logger.error(e.getStackTrace());
             throw new ServletException(e.getMessage(), e);
         }
-
-        resp.sendRedirect(req.getContextPath() + "/products");
     }
 }

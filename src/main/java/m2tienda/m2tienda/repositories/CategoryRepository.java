@@ -16,7 +16,7 @@ public class CategoryRepository {
     private static final Logger logger = LogManager.getLogger(CategoryRepository.class);
 
     public List<Category> findAll(Connection connection) {
-        logger.info("findAll() called");
+        logger.info("CategoryRepository - findAll() called");
 
         String query = """
                 SELECT *

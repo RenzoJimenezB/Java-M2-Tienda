@@ -33,7 +33,9 @@ public class ProductDeleteServlet extends HttpServlet {
 
         try (Connection connection = DBConnectionManager.getConnection()) {
             productService.deleteProduct(connection, productId);
-            resp.sendRedirect(req.getContextPath() + "/products"); // Redirect after deletion
+
+            req.getSession().setAttribute("success", "Registro eliminado exitosamente");
+            resp.sendRedirect(req.getContextPath() + "/products");
 
         } catch (SQLException e) {
             logger.error("Failed to delete product", e);

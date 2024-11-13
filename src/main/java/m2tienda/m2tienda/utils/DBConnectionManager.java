@@ -1,27 +1,31 @@
 package m2tienda.m2tienda.utils;
 
-import io.github.cdimascio.dotenv.Dotenv;
-import jakarta.servlet.ServletException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnectionManager {
     private static final Logger logger = LogManager.getLogger(DBConnectionManager.class);
-    private static final Dotenv dotenv = Dotenv.load();
 
-    private static final String url = dotenv.get("DB_URL");
-    private static final String user = dotenv.get("DB_USER");
-    private static final String password = dotenv.get("DB_PASSWORD");
-
-    public static Connection getConnection() throws SQLException, ServletException {
+    public static Connection getConnection() throws SQLException {
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            return DriverManager.getConnection(url, user, password);
+            Context ctx = new InitialContext();
+            DataSource dataSource = (DataSource) ctx.lookup("java:comp/env/jdbc/tienda");
+            Connection connection = dataSource.getConnection();
+
+            logger.info("Successfully obtained a connection from the pool");
+            return connection;
+
+        } catch (NamingException e) {
+            logger.error("Failed to locate the DataSource for jdbc/tienda: {}", e.getMessage());
+            throw new RuntimeException(e);
 
         } catch (SQLException e) {
             logger.error("SQL error while getting connection.\nCode: {}\nSQLState: {}\nMessage: {}",
@@ -29,8 +33,6 @@ public class DBConnectionManager {
                     e.getSQLState(),
                     e.getMessage());
             throw e;
-        } catch (ClassNotFoundException e) {
-            throw new ServletException("JDBC Driver not found", e);
         }
     }
 

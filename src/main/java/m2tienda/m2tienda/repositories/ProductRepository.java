@@ -131,7 +131,7 @@ public class ProductRepository {
 
             statement.setString(7, product.getImage_name());
             statement.setString(8, product.getImage_type());
-            statement.setLong(9, product.getImage_size());
+            statement.setObject(9, product.getImage_size());
 
             int rowsAffected = statement.executeUpdate();
             logger.info("Product created successfully, rows affected: {}", rowsAffected);
@@ -150,15 +150,20 @@ public class ProductRepository {
     public void delete(Connection connection, int id) throws SQLException {
         logger.info("ProductRepository - delete() called");
 
-        String sql = "DELETE FROM productos WHERE id = ?";
+        String sql = """
+                DELETE FROM productos
+                WHERE id = ?
+                """;
+
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
             int rowsAffected = statement.executeUpdate();
-            if (rowsAffected > 0) {
+
+            if (rowsAffected > 0)
                 System.out.println("Product with ID " + id + " was deleted successfully.");
-            } else {
+
+            else
                 System.out.println("No product found with ID " + id + ".");
-            }
         }
     }
 }
