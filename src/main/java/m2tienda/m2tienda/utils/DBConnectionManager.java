@@ -12,21 +12,34 @@ import java.sql.SQLException;
 
 public class DBConnectionManager {
     private static final Logger logger = LogManager.getLogger(DBConnectionManager.class);
+    private static volatile DataSource dataSource;
+
+    private static DataSource getDataSource() {
+        if (dataSource == null) {
+            synchronized (DBConnectionManager.class) {
+                if (dataSource == null) {
+                    try {
+                        Context ctx = new InitialContext();
+                        dataSource = (DataSource) ctx.lookup("java:comp/env/jdbc/tienda");
+                        logger.info("DataSource initialized successfully");
+
+                    } catch (NamingException e) {
+                        logger.error("Failed to locate the DataSource for jdbc/tienda: {}", e.getMessage());
+                        throw new RuntimeException("Could not initialize DataSource", e);
+                    }
+                }
+            }
+        }
+        return dataSource;
+    }
 
     public static Connection getConnection() throws SQLException {
 
         try {
-            Context ctx = new InitialContext();
-            DataSource dataSource = (DataSource) ctx.lookup("java:comp/env/jdbc/tienda");
-            Connection connection = dataSource.getConnection();
-
+            Connection connection = getDataSource().getConnection();
             logger.info("Successfully obtained a connection from the pool");
             return connection;
-
-        } catch (NamingException e) {
-            logger.error("Failed to locate the DataSource for jdbc/tienda: {}", e.getMessage());
-            throw new RuntimeException(e);
-
+            
         } catch (SQLException e) {
             logger.error("SQL error while getting connection.\nCode: {}\nSQLState: {}\nMessage: {}",
                     e.getErrorCode(),
