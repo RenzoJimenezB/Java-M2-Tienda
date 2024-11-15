@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.sql.DataSource;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -36,5 +37,23 @@ public class ApplicationContextListener implements ServletContextListener {
         } catch (Exception e) {
             logger.error("Failed to shutdown AbandonedConnectionCleanupThread", e);
         }
+
+        Object dataSource = sce.getServletContext().getAttribute("dataSource");
+        if (dataSource instanceof DataSource) {
+            try {
+                ((DataSource) dataSource).getConnection().close();
+                logger.info("DataSource closed successfully");
+
+            } catch (Exception e) {
+                logger.error("Failed to close DataSource", e);
+            }
+        }
+
+        logger.info("Application context cleanup completed");
+    }
+
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+        logger.info("Application context initialized");
     }
 }
