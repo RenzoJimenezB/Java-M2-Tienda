@@ -26,9 +26,11 @@
                     </div>
 
                     <c:if test="${not empty product.image_name}">
-                        <img src="<c:url value="file/${product.image_name}"/>"
-                             alt=""
-                             width="100%">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <img src="<c:url value="files/${product.image_name}"/>"
+                                 alt=""
+                                 style="max-width: 80%; height: auto;">
+                        </div>
                     </c:if>
 
                     <div class="card-body">
