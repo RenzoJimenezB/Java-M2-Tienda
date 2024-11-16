@@ -2,18 +2,17 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <title>Tienda</title>
+    <title>Checkout</title>
     <%@include file="/WEB-INF/includes/head.jsp" %>
 </head>
-
 <body>
 <%@include file="/WEB-INF/includes/navbar.jsp" %>
 
 <div class="container-fluid pt-3">
-    <div class="display-4 mb-3">Mantenimiento de Productos</div>
+    <div class="display-4 mb-3">Productos en Carrito</div>
 
     <c:if test="${not empty sessionScope.success}">
-        <div class="alert alert-success">${sessionScope.success}</div>
+    <div class="alert alert-success">${sessionScope.success}</div>
         <c:remove var="success"/>
     </c:if>
 
@@ -30,53 +29,41 @@
                     <th>CATEGORÍA</th>
                     <th>PRECIO</th>
                     <th>IMAGEN</th>
-                    <th width="300">ACCIONES</th>
+                    <th width="300"></th>
                 </tr>
                 </thead>
-
                 <tbody>
-                <c:forEach items="${products}" var="product">
+                <c:forEach items="${shoppingCart}" var="product">
                     <tr>
                         <td><c:out value="${product.id}"/></td>
                         <td><c:out value="${product.name}"/></td>
                         <td><c:out value="${product.category.name}"/></td>
                         <td><c:out value="${product.price}"/></td>
-
                         <td>
-                            <c:if test="${not empty product.image_name}">
+                            <c:if test="${not empty product.imagen_nombre}">
                                 <img src="<c:url value="files/${product.image_name}"/>"
                                      alt=""
                                      height="30">
                             </c:if>
                         </td>
-
                         <td class="text-right">
-                            <a href="${contextPath}/products/view?id=<c:out value="${product.id}"/>"
-                               class="btn btn-info btn-sm"><i class="fa fa-eye"></i>
-                                Mostrar</a>
-
-                            <a href="
-                                <c:url value="/products/edit"><c:param name="id" value="${product.id}"/>
-                                </c:url>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i>
-                                Editar</a>
-
-                            <a href="
-                                <c:url value="/products/delete"><c:param name="id" value="${product.id}"/>
-                                </c:url>" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i>
-                                Eliminar</a>
+                            <a href="#" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i>
+                                Retirar</a>
                         </td>
                     </tr>
                 </c:forEach>
                 </tbody>
-
             </table>
         </div>
         <div class="card-footer">
-            <a href="<c:url value="/products/create"/>" class="btn btn-success"><i class="fa fa-plus"></i>
-                Nuevo
+            <a href="#" class="btn btn-success"><i class="fa fa-shopping-cart"></i> Pagar</a>
+            <a href="<c:url value="/purchase" >">
+
             </a>
+            <a href="<%=request.getContextPath()%>/CarritoOfertarServlet" class="btn btn-secondary"><i
+                    class="fa fa-chevron-left"></i> Seguir Comprando</a>
         </div>
     </div>
-</div>
+
 </body>
 </html>
