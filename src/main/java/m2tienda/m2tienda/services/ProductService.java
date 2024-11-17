@@ -20,7 +20,7 @@ public class ProductService {
     }
 
     public List<Product> getProducts(Connection connection) {
-        logger.info("ProductService - getProducts() called");
+        logger.info("ProductService.getProducts()");
 
         try {
             return productRepository.findAll(connection);
@@ -31,7 +31,7 @@ public class ProductService {
     }
 
     public Product getProduct(Connection connection, int id) {
-        logger.info("ProductService - getProduct() called");
+        logger.info("ProductService.getProduct()");
 
         try {
             return productRepository.findOne(connection, id);
@@ -42,7 +42,7 @@ public class ProductService {
     }
 
     public void createProduct(Connection connection, Product product) {
-        logger.info("ProductService - createProduct() called");
+        logger.info("ProductService.createProduct()");
 
         try {
             productRepository.create(connection, product);
@@ -52,7 +52,7 @@ public class ProductService {
     }
 
     public void updateProduct(Connection connection, Product product) {
-        logger.info("ProductService - updateProduct() called");
+        logger.info("ProductService.updateProduct()");
 
         try {
             productRepository.update(connection, product);
@@ -62,7 +62,7 @@ public class ProductService {
     }
 
     public void deleteProduct(Connection connection, int id) throws SQLException {
-        logger.info("ProductService - deleteProduct() called");
+        logger.info("ProductService.deleteProduct()");
 
         try {
             productRepository.delete(connection, id);

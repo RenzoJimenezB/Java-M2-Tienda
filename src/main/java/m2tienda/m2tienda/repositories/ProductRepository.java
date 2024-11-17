@@ -17,7 +17,7 @@ public class ProductRepository {
     private static final Logger logger = LogManager.getLogger(ProductRepository.class);
 
     public List<Product> findAll(Connection connection) {
-        logger.info("ProductRepository - findAll() called");
+        logger.info("ProductRepository.findAll()");
 
         String query = """
                 SELECT p.id, p.categorias_id, p.nombre, p.descripcion, p.precio, p.stock,
@@ -64,7 +64,7 @@ public class ProductRepository {
     }
 
     public Product findOne(Connection connection, int id) {
-        logger.info("ProductRepository - findOne() called");
+        logger.info("ProductRepository.findOne()");
 
         String query = """
                 SELECT p.id, p.categorias_id, p.nombre, p.descripcion, p.precio, p.stock,
@@ -112,7 +112,7 @@ public class ProductRepository {
     }
 
     public void create(Connection connection, Product product) {
-        logger.info("ProductRepository - create() called");
+        logger.info("ProductRepository.create()");
 
         String query = """
                 INSERT INTO productos (
@@ -143,12 +143,12 @@ public class ProductRepository {
     }
 
     public void update(Connection connection, Product product) {
-        logger.info("ProductRepository - update() called");
+        logger.info("ProductRepository.update()");
 
     }
 
     public void delete(Connection connection, int id) throws SQLException {
-        logger.info("ProductRepository - delete() called");
+        logger.info("ProductRepository.delete()");
 
         String sql = """
                 DELETE FROM productos

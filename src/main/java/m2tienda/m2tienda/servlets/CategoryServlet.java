@@ -29,7 +29,7 @@ public class CategoryServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.info("CategoryServlet - doGet() called");
+        logger.info("CategoryServlet.doGet()");
 
         try (Connection connection = DBConnectionManager.getConnection()) {
             List<Category> categories = categoryService.getCategories(connection);

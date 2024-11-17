@@ -19,7 +19,7 @@ public class CategoryService {
     }
 
     public List<Category> getCategories(Connection connection) {
-        logger.info("CategoryService - getCategories() called");
+        logger.info("CategoryService.getCategories()");
 
         try {
             return categoryRepository.findAll(connection);

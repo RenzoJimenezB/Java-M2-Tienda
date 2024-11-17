@@ -29,7 +29,7 @@ public class ShopCatalogServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.info("ShopCatalogServlet - doGet() called");
+        logger.info("ShopCatalogServlet.doGet()");
 
         try (Connection connection = DBConnectionManager.getConnection()) {
             List<Product> products = productService.getProducts(connection);

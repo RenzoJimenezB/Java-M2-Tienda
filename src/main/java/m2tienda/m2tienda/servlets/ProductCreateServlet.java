@@ -43,7 +43,7 @@ public class ProductCreateServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.info("ProductCreateServlet - doGet() called");
+        logger.info("ProductCreateServlet.doGet()");
 
         try (Connection connection = DBConnectionManager.getConnection()) {
             List<Category> categories = categoryService.getCategories(connection);
@@ -57,7 +57,7 @@ public class ProductCreateServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.info("ProductCreateServlet - doPost() called");
+        logger.info("ProductCreateServlet.doPost()");
 
         String categoryId = req.getParameter("categorias_id");
         String name = req.getParameter("nombre");

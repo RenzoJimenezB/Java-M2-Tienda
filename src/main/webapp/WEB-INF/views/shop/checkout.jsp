@@ -40,7 +40,7 @@
                         <td><c:out value="${product.category.name}"/></td>
                         <td><c:out value="${product.price}"/></td>
                         <td>
-                            <c:if test="${not empty product.imagen_nombre}">
+                            <c:if test="${not empty product.image_name}">
                                 <img src="<c:url value="files/${product.image_name}"/>"
                                      alt=""
                                      height="30">
@@ -57,11 +57,8 @@
         </div>
         <div class="card-footer">
             <a href="#" class="btn btn-success"><i class="fa fa-shopping-cart"></i> Pagar</a>
-            <a href="<c:url value="/purchase" >">
-
-            </a>
-            <a href="<%=request.getContextPath()%>/CarritoOfertarServlet" class="btn btn-secondary"><i
-                    class="fa fa-chevron-left"></i> Seguir Comprando</a>
+            <a href="<c:url value="/catalog"/>" class="btn btn-secondary"><i
+                    class="fa fa-chevron-left"></i> Seguir Comprando></a>
         </div>
     </div>
 

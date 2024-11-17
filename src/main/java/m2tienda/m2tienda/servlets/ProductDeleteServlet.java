@@ -26,7 +26,7 @@ public class ProductDeleteServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        logger.info("ProductDeleteServlet - doGet() called");
+        logger.info("ProductDeleteServlet.doGet()");
 
         int productId = Integer.parseInt(req.getParameter("id"));
 

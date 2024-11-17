@@ -24,7 +24,7 @@ public class ProductUpdateServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.info("ProductUpdateServlet - doGet() called");
+        logger.info("ProductUpdateServlet.doGet()");
 
     }
 }

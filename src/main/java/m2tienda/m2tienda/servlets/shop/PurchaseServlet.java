@@ -32,14 +32,14 @@ public class PurchaseServlet extends HttpServlet {
     @Override
     @SuppressWarnings("unchecked")
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        logger.info("PurchaseServlet - doGet() called");
+        logger.info("PurchaseServlet.doGet()");
 
         int productId = Integer.parseInt(req.getParameter("id"));
 
         try (Connection connection = DBConnectionManager.getConnection()) {
             Product newProduct = productService.getProduct(connection, productId);
 
-            logger.info("\n{}", newProduct);
+            logger.info("Product added to shopping cart:\n{}", newProduct);
 
             HttpSession session = req.getSession();
             List<Product> shoppingCart = (List<Product>) session.getAttribute("shoppingCart");
@@ -51,7 +51,7 @@ public class PurchaseServlet extends HttpServlet {
             session.setAttribute("shoppingCart", shoppingCart);
             session.setAttribute("success", "Producto añadido al carrito");
 
-            resp.sendRedirect(req.getContextPath() + "/shoppingCart");
+            resp.sendRedirect(req.getContextPath() + "/checkout");
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

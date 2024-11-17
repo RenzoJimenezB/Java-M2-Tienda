@@ -11,18 +11,17 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/shoppingCart")
+@WebServlet("/checkout")
 public class ShoppingCartServlet extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(ShoppingCartServlet.class);
 
     @Override
     @SuppressWarnings("unchecked")
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.info("ShoppingCartServlet - doGet() called");
+        logger.info("ShoppingCartServlet.doGet()");
 
         try {
             HttpSession session = req.getSession();
