@@ -58,7 +58,7 @@
         <div class="card-footer">
             <a href="#" class="btn btn-success"><i class="fa fa-shopping-cart"></i> Pagar</a>
             <a href="<c:url value="/catalog"/>" class="btn btn-secondary"><i
-                    class="fa fa-chevron-left"></i> Seguir Comprando></a>
+                    class="fa fa-chevron-left"></i> Seguir Comprando</a>
         </div>
     </div>
 

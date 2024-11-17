@@ -18,13 +18,13 @@ public class CategoryRepository {
     public List<Category> findAll(Connection connection) {
         logger.info("CategoryRepository.findAll()");
 
-        String query = """
+        String sql = """
                 SELECT *
                 FROM categorias
                 ORDER BY orden
                 """;
 
-        try (PreparedStatement ps = connection.prepareStatement(query);
+        try (PreparedStatement ps = connection.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
             List<Category> categories = new ArrayList<>();

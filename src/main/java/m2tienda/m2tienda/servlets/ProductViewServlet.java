@@ -38,7 +38,7 @@ public class ProductViewServlet extends HttpServlet {
             logger.info("\n{}", product);
 
             req.setAttribute("product", product);
-            req.getRequestDispatcher("WEB-INF/views/product-view.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/views/product/product-view.jsp").forward(req, resp);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

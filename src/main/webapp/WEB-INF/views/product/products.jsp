@@ -51,8 +51,9 @@
                         </td>
 
                         <td class="text-right">
-                            <a href="${contextPath}/products/view?id=<c:out value="${product.id}"/>"
-                               class="btn btn-info btn-sm"><i class="fa fa-eye"></i>
+                            <a href="
+                                <c:url value="/products/view"><c:param name="id" value="${product.id}"/>
+                                </c:url>" class="btn btn-info btn-sm"><i class="fa fa-eye"></i>
                                 Mostrar</a>
 
                             <a href="

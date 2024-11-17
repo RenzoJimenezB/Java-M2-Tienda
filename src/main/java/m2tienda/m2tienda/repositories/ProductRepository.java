@@ -19,7 +19,7 @@ public class ProductRepository {
     public List<Product> findAll(Connection connection) {
         logger.info("ProductRepository.findAll()");
 
-        String query = """
+        String sql = """
                 SELECT p.id, p.categorias_id, p.nombre, p.descripcion, p.precio, p.stock,
                        p.imagen_nombre, p.imagen_tipo, p.imagen_tamanio, p.creado, p.estado,
                        c.nombre AS categorias_nombre
@@ -29,7 +29,7 @@ public class ProductRepository {
                 ORDER BY p.id
                 """;
 
-        try (PreparedStatement ps = connection.prepareStatement(query);
+        try (PreparedStatement ps = connection.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
             List<Product> products = new ArrayList<>();
@@ -66,7 +66,7 @@ public class ProductRepository {
     public Product findOne(Connection connection, int id) {
         logger.info("ProductRepository.findOne()");
 
-        String query = """
+        String sql = """
                 SELECT p.id, p.categorias_id, p.nombre, p.descripcion, p.precio, p.stock,
                        p.imagen_nombre, p.imagen_tipo, p.imagen_tamanio, p.creado, p.estado,
                        c.nombre AS categorias_nombre
@@ -75,7 +75,7 @@ public class ProductRepository {
                 WHERE p.id = ?
                 """;
 
-        try (PreparedStatement ps = connection.prepareStatement(query)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -114,14 +114,14 @@ public class ProductRepository {
     public void create(Connection connection, Product product) {
         logger.info("ProductRepository.create()");
 
-        String query = """
+        String sql = """
                 INSERT INTO productos (
                        categorias_id, nombre, precio, stock, descripcion, estado,
                        imagen_nombre, imagen_tipo, imagen_tamanio)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """;
 
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, product.getCategoryId());
             statement.setString(2, product.getName());
             statement.setDouble(3, product.getPrice());
@@ -160,10 +160,10 @@ public class ProductRepository {
             int rowsAffected = statement.executeUpdate();
 
             if (rowsAffected > 0)
-                System.out.println("Product with ID " + id + " was deleted successfully.");
+                logger.info("Product with ID {} was deleted successfully", rowsAffected);
 
             else
-                System.out.println("No product found with ID " + id + ".");
+                logger.info("No product found with ID {}", rowsAffected);
         }
     }
 }

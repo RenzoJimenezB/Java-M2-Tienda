@@ -39,7 +39,6 @@ public class ProductListServlet extends HttpServlet {
                     products.stream().map(Product::toString).toList()));
 
             req.setAttribute("products", products);
-            req.setAttribute("contextPath", req.getContextPath());
             req.getRequestDispatcher("WEB-INF/views/product/products.jsp").forward(req, resp);
 
         } catch (SQLException e) {
