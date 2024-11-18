@@ -24,6 +24,7 @@ public class ProductService {
 
         try {
             return productRepository.findAll(connection);
+
         } catch (RepositoryException e) {
             logger.error("Repository error while fetching products: {}", e.getMessage());
             return Collections.emptyList();
@@ -34,7 +35,8 @@ public class ProductService {
         logger.info("ProductService.getProduct()");
 
         try {
-            return productRepository.findOne(connection, id);
+            return productRepository.findById(connection, id);
+
         } catch (RepositoryException e) {
             logger.error("Repository error while fetching product by ID: {}", e.getMessage());
             return null;
@@ -46,6 +48,7 @@ public class ProductService {
 
         try {
             productRepository.create(connection, product);
+
         } catch (RepositoryException e) {
             logger.error("Repository error while creating product: {}", e.getMessage());
         }
@@ -56,6 +59,7 @@ public class ProductService {
 
         try {
             productRepository.update(connection, product);
+
         } catch (RepositoryException e) {
             logger.error("Repository error while updating product: {}", e.getMessage());
         }
@@ -66,6 +70,7 @@ public class ProductService {
 
         try {
             productRepository.delete(connection, id);
+
         } catch (RepositoryException e) {
             logger.error("Repository error while deleting product: {}", e.getMessage());
         }
