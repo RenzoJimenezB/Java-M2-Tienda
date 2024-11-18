@@ -44,4 +44,36 @@ public class CategoryRepository {
             throw new RepositoryException(e.getMessage());
         }
     }
+
+    public Category findById(Connection connection, int id) {
+        logger.info("CategoryRepository.findById()");
+
+        String sql = """
+                SELECT id, nombre, orden
+                FROM categorias
+                WHERE id = ?
+                """;
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+                    Category category = new Category();
+                    category.setId(rs.getInt("id"));
+                    category.setName(rs.getString("nombre"));
+                    category.setOrder(rs.getInt("orden"));
+
+                    return category;
+                }
+            }
+
+        } catch (SQLException e) {
+            logger.error("DB error", e);
+            throw new RepositoryException(e.getMessage());
+        }
+        
+        return null;
+    }
 }
