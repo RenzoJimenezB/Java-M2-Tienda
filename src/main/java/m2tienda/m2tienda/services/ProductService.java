@@ -54,15 +54,17 @@ public class ProductService {
         }
     }
 
-    public void updateProduct(Connection connection, Product product) {
+    public boolean updateProduct(Connection connection, Product product) {
         logger.info("ProductService.updateProduct()");
 
         try {
-            productRepository.update(connection, product);
+            return productRepository.update(connection, product);
 
         } catch (RepositoryException e) {
             logger.error("Repository error while updating product: {}", e.getMessage());
         }
+
+        return false;
     }
 
     public void deleteProduct(Connection connection, int id) throws SQLException {

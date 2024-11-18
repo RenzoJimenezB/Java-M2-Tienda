@@ -59,12 +59,11 @@ public class ProductCreateServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.info("ProductCreateServlet.doPost()");
 
-        String categoryId = req.getParameter("categorias_id");
-        String name = req.getParameter("nombre");
-        String price = req.getParameter("precio");
+        String categoryId = req.getParameter("categoryId");
+        String name = req.getParameter("name");
+        String price = req.getParameter("price");
         String stock = req.getParameter("stock");
-        String description = req.getParameter("descripcion");
-
+        String description = req.getParameter("description");
 
         Product product = new Product();
         product.setCategoryId(Integer.parseInt(categoryId));
@@ -74,7 +73,7 @@ public class ProductCreateServlet extends HttpServlet {
         product.setDescription(description);
         product.setState(ACTIVE);
 
-        Part filePart = req.getPart("imagen");
+        Part filePart = req.getPart("image");
         if (filePart.getSubmittedFileName() != null && !filePart.getSubmittedFileName().isEmpty()) {
             File filepath = new File(getServletContext().getRealPath("") + File.separator + "files");
 

@@ -63,7 +63,7 @@ public class ProductRepository {
         }
     }
 
-    public Product findOne(Connection connection, int id) {
+    public Product findById(Connection connection, int id) {
         logger.info("ProductRepository.findOne()");
 
         String sql = """
@@ -121,30 +121,105 @@ public class ProductRepository {
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """;
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, product.getCategoryId());
-            statement.setString(2, product.getName());
-            statement.setDouble(3, product.getPrice());
-            statement.setInt(4, product.getStock());
-            statement.setString(5, product.getDescription());
-            statement.setInt(6, product.getState());
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, product.getCategoryId());
+            ps.setString(2, product.getName());
+            ps.setDouble(3, product.getPrice());
+            ps.setInt(4, product.getStock());
+            ps.setString(5, product.getDescription());
+            ps.setInt(6, product.getState());
 
-            statement.setString(7, product.getImage_name());
-            statement.setString(8, product.getImage_type());
-            statement.setObject(9, product.getImage_size());
+            ps.setString(7, product.getImage_name());
+            ps.setString(8, product.getImage_type());
+            ps.setObject(9, product.getImage_size());
 
-            int rowsAffected = statement.executeUpdate();
+            int rowsAffected = ps.executeUpdate();
             logger.info("Product created successfully, rows affected: {}", rowsAffected);
 
         } catch (SQLException e) {
             logger.error("DB error", e);
-            throw new RuntimeException(e.getMessage());
+            throw new RepositoryException(e.getMessage());
         }
     }
 
-    public void update(Connection connection, Product product) {
+    public boolean update(Connection connection, Product product) {
         logger.info("ProductRepository.update()");
 
+        StringBuilder sql = new StringBuilder("UPDATE productos SET ");
+
+        List<String> fields = new ArrayList<>();
+        List<Object> values = new ArrayList<>();
+
+        if (product.getName() != null) {
+            fields.add("nombre=?");
+            values.add(product.getName());
+        }
+
+        if (product.getCategory() != null) {
+            fields.add("categorias_id=?");
+            values.add(product.getCategory().getId());
+        }
+
+        if (product.getPrice() != null) {
+            fields.add("precio=?");
+            values.add(product.getPrice());
+        }
+
+        if (product.getStock() != null) {
+            fields.add("stock=?");
+            values.add(product.getStock());
+        }
+
+        if (product.getDescription() != null) {
+            fields.add("descripcion=?");
+            values.add(product.getDescription());
+        }
+
+        if (product.getState() != null) {
+            fields.add("estado=?");
+            values.add(product.getState());
+        }
+
+        if (product.getImage_name() != null) {
+            fields.add("imagen_nombre=?");
+            values.add(product.getImage_name());
+        }
+
+        if (product.getImage_type() != null) {
+            fields.add("imagen_tipo=?");
+            values.add(product.getImage_type());
+        }
+
+        if (product.getImage_size() != null) {
+            fields.add("imagen_tamanio=?");
+            values.add(product.getImage_size());
+        }
+
+        if (fields.isEmpty())
+            throw new IllegalArgumentException(String.format("No fields to update for product with ID %d", product.getId()));
+
+        sql.append(String.join(", ", fields));
+        sql.append(" WHERE id=?");
+
+        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+            int index = 1;
+            for (Object value : values)
+                ps.setObject(index++, value);
+
+            ps.setInt(index, product.getId());
+
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                logger.info("Product with ID {} was updated successfully", product.getId());
+                return true;
+            }
+
+        } catch (SQLException e) {
+            logger.error("DB error", e);
+            throw new RepositoryException(e.getMessage());
+        }
+
+        return false;
     }
 
     public void delete(Connection connection, int id) throws SQLException {

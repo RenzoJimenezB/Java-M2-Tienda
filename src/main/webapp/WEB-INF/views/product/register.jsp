@@ -19,14 +19,14 @@
             <div class="card-body">
 
                 <div class="form-group">
-                    <label for="nombre">Nombre</label>
-                    <input type="text" name="nombre" id="nombre" class="form-control"
+                    <label for="name">Nombre</label>
+                    <input type="text" name="name" id="name" class="form-control"
                            maxlength="100" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="categorias_id">Categoría</label>
-                    <select name="categorias_id" id="categorias_id" class="form-control" required>
+                    <label for="categoryId">Categoría</label>
+                    <select name="categoryId" id="categoryId" class="form-control" required>
                         <option value="" selected disabled>Seleccione un valor</option>
 
                         <c:forEach items="${categories}" var="category">
@@ -37,12 +37,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="precio">Precio</label>
+                    <label for="price">Precio</label>
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <div class="input-group-text">S/</div>
                         </div>
-                        <input type="number" name="precio" id="precio" class="form-control" min="0"
+                        <input type="number" name="price" id="price" class="form-control" min="0"
                                step="0.01">
                     </div>
                 </div>
@@ -53,16 +53,16 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="imagen">Imagen</label>
+                    <label for="image">Imagen</label>
                     <div class="custom-file">
-                        <input type="file" id="imagen" name="imagen" class="custom-file-input"/>
+                        <input type="file" id="image" name="image" class="custom-file-input"/>
                         <label class=" custom-file-label" for="imagen">Seleccionar archivo</label>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="descripcion">Descripción</label>
-                    <textarea name="descripcion" id="descripcion" class="form-control ckeditor"
+                    <label for="description">Descripción</label>
+                    <textarea name="description" id="description" class="form-control ckeditor"
                               rows="5"></textarea>
                 </div>
             </div>
