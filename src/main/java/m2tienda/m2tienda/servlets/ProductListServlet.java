@@ -39,7 +39,7 @@ public class ProductListServlet extends HttpServlet {
                     products.stream().map(Product::toString).toList()));
 
             req.setAttribute("products", products);
-            req.getRequestDispatcher("WEB-INF/views/product/products.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/views/product/products.jsp").forward(req, resp);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

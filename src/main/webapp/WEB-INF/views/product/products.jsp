@@ -44,7 +44,7 @@
 
                         <td>
                             <c:if test="${not empty product.image_name}">
-                                <img src="<c:url value="files/${product.image_name}"/>"
+                                <img src="<c:url value="/files/${product.image_name}"/>"
                                      alt=""
                                      height="30">
                             </c:if>
