@@ -16,8 +16,8 @@
                     Mantenimiento
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item"
-                       href="<%=request.getContextPath()%>/ProductoListarServlet">Productos</a>
+                    <a href="<c:url value='/products'/> " class="dropdown-item">
+                        Productos</a>
                     <a class="dropdown-item" href="#">Usuarios</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Reportes</a>
