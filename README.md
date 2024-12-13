@@ -1,2 +1,3 @@
-# Proyecto Demo: Tienda
-## Servlet + JSP + JSTL
+# Tienda demo app
+
+## Servlet, JSP, JSTL   
